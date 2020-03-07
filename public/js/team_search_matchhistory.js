@@ -121,7 +121,7 @@ function matchHistoryTeleop() {
         }
 
         var total_cycles = total_inner_cycles + total_lower_cycles + total_outer_cycles;
-        var ppc = ((3*c_inner) + (2*c_outer_scored )+ 1*(c_lower_scored))/total_cycles;
+        var ppc = (((3*c_inner) + (2*c_outer_scored )+ 1*(c_lower_scored))/total_cycles).toFixed(3);
 
         var row = $('<tr></tr>');
         row.append($('<th scope="row"></th>').text(data.match_number[i]));

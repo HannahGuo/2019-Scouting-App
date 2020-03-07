@@ -34,7 +34,7 @@ function analyzeData() {
   var auto_total = [];
   var teleop_total = [];
   var teleop_cycles = [];
-  var t_average_ppc = 0;
+  var t_average_ppc = [];
 
   var dc_mentions = 0;
   var brownout_mentions = 0;
@@ -60,8 +60,8 @@ function analyzeData() {
     var auto_outer_scored = data.auto_outerport_success[i];
     var auto_inner_missed = data.auto_outerport_success[i];
     var auto_outer_missed = data.auto_outerport_fail[i];
-    var auto_lower_missed = data.auto_lowerport_fail[i];
-    var auto_lower_scored = data.auto_lowerport_success[i];
+    var auto_lower_missed = data.auto_lowport_fail[i];
+    var auto_lower_scored = data.auto_lowport_success[i];
 
 
     var inner_missed = 0;
@@ -160,7 +160,7 @@ function analyzeData() {
     }
 
     if (data.match_comment[i].includes('brownout') || data.match_comment[i].includes('brown out') || data.match_comment[i].includes('Brown out')){
-      brownout_mention++
+      brownout_mentions++
     }
 
     if (data.climb == 'Self Climb'){
@@ -190,7 +190,7 @@ function analyzeData() {
   }
 
   var max_index = 2;
-  for (x=0, x < pref_shot_type.length; x++){
+  for (x=0; x < pref_shot_type.length; x++){
     if (pref_shot_type[x] > pref_shot_type[max_index]){
       max_index = x
     }

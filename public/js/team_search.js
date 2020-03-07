@@ -70,7 +70,7 @@ function retrieveData() {
     }).catch(function(error) {
         console.log("err");
         console.log(error.code);
-        var img = document.getElementById('teamPic').src = "";
+        //var img = document.getElementById('teamPic').src = "";
     });
 }
 
