@@ -54,8 +54,8 @@ function retrieveData() {
             });
 
             // Matches have been retrieved
-            
-            //populateStats();
+
+            populateStats();
             populateMatchHistory();
 
         } else {

@@ -5,146 +5,228 @@ function analyzeSet(dataset) {
     }
 
     var median = math.median(dataset);
-
-    // // split the data by the median
-    // var firstHalf = dataset.filter(function(f) {
-    //     return f <= median
-    // });
-    // var secondHalf = dataset.filter(function(f) {
-    //     return f >= median
-    // });
-
-    // // find the medians for each split
-    // var q1 = math.median(firstHalf);
-    // var q3 = math.median(secondHalf);
-
-    // var IQR = q3 - q1;
-
     return median;
 
 }
 
+function getMean(dataset){
+  var sum = 0
+  for (i=0; i < dataset.length; i++){
+    sum += dataset[i]
+  }
+  return (sum/dataset.length)
+}
+
+function getAverageStd(dataset){
+  const mean = getMean(dataset);
+  var total_std = 0
+  for (i = 0; i < dataset.length; i++){
+    std = Math.abs(dataset[i] - mean)
+    total_std += std
+  }
+  return (total_std/dataset.length)
+}
+
 function analyzeData() {
+  // pref_shot_type = [inner,outer,lower]
+  var pref_shot_type = [];
+  var a_average_pps  = [];
+  var auto_total = [];
+  var teleop_total = [];
+  var teleop_cycles = [];
+  var t_average_ppc = 0;
 
-    var auto_switch_success = [];
-    var auto_scale_success = [];
-    // var auto_vault = [];
-    var teleop_switch_success = [];
-    var teleop_scale_winning_success = [];
-    var teleop_scale_losing_success = [];
-    var teleop_opp_switch_success = [];
-    var teleop_vault = [];
+  var dc_mentions = 0;
+  var brownout_mentions = 0;
 
-    var overall_teleop_success = [];
+  var self_climbs = 0;
+  var parks = 0;
+  var scale_leveled = 0;
+  var lifted_team_climbs = 0;
+  var failed_climbs = 0;
+  var failed_parks = 0;
+  var assisted_climbs = 0;
+  var did_not_attempts = 0;
 
-    var switch_accuracy = 0;
-    var switch_accuracy_lst = [];
+  var defense_counter = 0;
+  var pref_defense_type = [];
 
-    var switch_opp_accuracy = 0;
-    var switch_opp_accuracy_lst = [];
+  for (i = 0; i < data.match_number.length; i++) {
 
-    var scale_winning_accuracy = 0;
-    var scale_winning_accuracy_lst = [];
+    var auto_points = 0;
+    var teleop_points = 0;
 
-    var scale_losing_accuracy = 0;
-    var scale_losing_accuracy_lst = [];
+    var auto_inner_scored = data.auto_innerport_success[i];
+    var auto_outer_scored = data.auto_outerport_success[i];
+    var auto_inner_missed = data.auto_outerport_success[i];
+    var auto_outer_missed = data.auto_outerport_fail[i];
+    var auto_lower_missed = data.auto_lowerport_fail[i];
+    var auto_lower_scored = data.auto_lowerport_success[i];
 
-    var scale_overall_accuracy = 0;
-    var scale_overall_accuracy_lst = [];
 
+    var inner_missed = 0;
+    var inner_scored = 0;
+    var outer_missed = 0;
+    var outer_scored = 0;
+    var lower_missed = 0;
+    var lower_scored = 0;
+    var total_cycles = 0;
+    var auto_pps = 0;
+    var teleop_ppc = 0;
 
-    for (var x = 0; x < data.teleop_vault.length; x++) {
-        switch_accuracy_lst.push(data.teleop_switch_success[x] / (data.teleop_switch_success[x] + data.teleop_switch_fail[x]));
-        switch_opp_accuracy_lst.push(data.teleop_opp_switch_success[x] / (data.teleop_opp_switch_success[x] + data.teleop_opp_switch_fail[x]));
-        scale_winning_accuracy_lst.push(data.teleop_scale_winning_success[x] / (data.teleop_scale_winning_success[x] + data.teleop_scale_winning_fail[x]));
-        scale_losing_accuracy_lst.push(data.teleop_scale_losing_success[x] / (data.teleop_scale_losing_success[x] + data.teleop_scale_losing_fail[x]));
-        scale_overall_accuracy_lst.push((data.teleop_switch_success[x] + data.teleop_opp_switch_success[x] + data.teleop_scale_winning_success[x] + data.teleop_scale_losing_success[x]) / (data.teleop_switch_success[x] + data.teleop_switch_fail[x] + data.teleop_opp_switch_success[x] + data.teleop_opp_switch_fail[x] + data.teleop_scale_winning_success[x] + data.teleop_scale_winning_fail[x] + data.teleop_scale_losing_success[x] + data.teleop_scale_losing_fail[x]));
+    var c_inner_array = [data.teleop_inner_c1[i],data.teleop_inner_c2[i],
+    data.teleop_inner_c3[i],data.teleop_inner_c4[i],data.teleop_inner_c5[i],
+    data.teleop_inner_c6[i],data.teleop_inner_c7[i],data.teleop_inner_c8[i],
+    data.teleop_inner_c9[i],data.teleop_inner_c10[i]];
+
+    var c_outer_missed_array = [data.teleop_outer_fail_c1[i],data.teleop_outer_fail_c2[i],
+    data.teleop_outer_fail_c3[i],data.teleop_outer_fail_c4[i],data.teleop_outer_fail_c5[i],
+    data.teleop_outer_fail_c6[i],data.teleop_outer_fail_c7[i],data.teleop_outer_fail_c8[i],
+    data.teleop_outer_fail_c9[i],data.teleop_outer_fail_c10[i]];
+
+    var c_outer_scored_array = [data.teleop_outer_success_c1[i],data.teleop_outer_success_c2[i],
+    data.teleop_outer_success_c3[i],data.teleop_outer_success_c4[i],data.teleop_outer_success_c5[i],
+    data.teleop_outer_success_c6[i],data.teleop_outer_success_c7[i],data.teleop_outer_success_c8[i],
+    data.teleop_outer_success_c9[i],data.teleop_outer_success_c10[i]];
+
+    var c_lower_missed_array = [data.teleop_lower_fail_c1[i],data.teleop_lower_fail_c2[i],
+    data.teleop_lower_fail_c3[i],data.teleop_lower_fail_c4[i],data.teleop_lower_fail_c5[i],
+    data.teleop_lower_fail_c6[i],data.teleop_lower_fail_c7[i],data.teleop_lower_fail_c8[i],
+    data.teleop_lower_fail_c9[i],data.teleop_lower_fail_c10[i]];
+
+    var c_lower_scored_array = [data.teleop_lower_success_c1[i],data.teleop_lower_success_c2[i],
+    data.teleop_lower_success_c3[i],data.teleop_lower_success_c4[i],data.teleop_lower_success_c5[i],
+    data.teleop_lower_success_c6[i],data.teleop_lower_success_c7[i],data.teleop_lower_success_c8[i],
+    data.teleop_lower_success_c9[i],data.teleop_lower_success_c10[i]];
+
+    for (j =0; i < c_inner_array; j++){
+      if (c_inner_array[j] > 0){
+        total_cycles += 1
+        inner_scored += c_inner_array[j]
+        pref_shot_type[0] += 1
+      }
     }
 
-    for (var x = 0; x < switch_accuracy_lst.length; x++) {
-        if (isNaN(switch_accuracy_lst[x])) {
-            switch_accuracy_lst[x] = 1
-        }
-        if (isNaN(switch_opp_accuracy_lst[x])) {
-            switch_opp_accuracy_lst[x] = 1
-        }
-        if (isNaN(scale_winning_accuracy_lst[x])) {
-            scale_winning_accuracy_lst[x] = 1
-        }
-        if (isNaN(scale_losing_accuracy_lst[x])) {
-            scale_losing_accuracy_lst[x] = 1
-        }
-        if (isNaN(scale_overall_accuracy_lst[x])) {
-            scale_overall_accuracy_lst[x] = 1
-        }
-
+    for (j =0; i < c_outer_missed_array; j++){
+      if (c_outer_missed_array[j] > 0){
+        total_cycles += 1
+        outer_missed += c_outer_missed_array[j]
+        pref_shot_type[1] += 1
+      }
     }
 
-
-    switch_accuracy = Math.trunc(math.mean(switch_accuracy_lst) * 100);
-    switch_opp_accuracy = Math.trunc(math.mean(switch_opp_accuracy_lst) * 100);
-    scale_winning_accuracy = Math.trunc(math.mean(scale_winning_accuracy_lst) * 100);
-    scale_losing_accuracy = Math.trunc(math.mean(scale_losing_accuracy_lst) * 100);
-    scale_overall_accuracy = Math.trunc(math.mean(scale_overall_accuracy_lst) * 100);
-
-    var mostRecent = 7;
-
-    if (data.overall_teleop_success.length < mostRecent) {
-        overall_auto_success = data.overall_auto_success;
-        overall_teleop_success = data.overall_teleop_success;
-    } else {
-        overall_auto_success = data.overall_auto_success.slice(data.overall_auto_success.length - mostRecent);
-        overall_teleop_success = data.overall_teleop_success.slice(data.overall_teleop_success.length - mostRecent);
+    for (j =0; i < c_outer_scored_array; j++){
+      if (c_outer_scored_array[j] > 0){
+        total_cycles += 1
+        outer_scored += c_outer_scored_array[j]
+        inner_missed += c_outer_scored_array[j]
+        pref_shot_type[0] += 1
+      }
     }
 
-    var i = data.overall_teleop_success.length - mostRecent;
-    if (i < 0) {
-        i = 0;
+    for (j =0; i < c_lower_scored_array; j++){
+      if (c_lower_scored_array[j] > 0){
+        total_cycles += 1
+        lower_scored += c_lower_scored_array[j]
+        pref_shot_type[2] += 1
+      }
     }
-    overall_teleop_success.forEach(val => {
-        if (val > 0) {
-            teleop_switch_success.push(data.teleop_switch_success[i]);
-            teleop_scale_winning_success.push(data.teleop_scale_winning_success[i]);
-            teleop_scale_losing_success.push(data.teleop_scale_losing_success[i]);
-            teleop_opp_switch_success.push(data.teleop_opp_switch_success[i]);
-            teleop_vault.push(data.teleop_vault[i]);
-        }
-        i += 1;
-    });
 
-    var j = data.overall_auto_success.length - mostRecent;
-    if (j < 0) {
-        j = 0;
+    for (j =0; i < c_lower_missed_array; j++){
+      if (c_lower_missed_array[j] > 0){
+        total_cycles += 1
+        lower_missed += c_lower_missed_array[j]
+        pref_shot_type[2] += 1
+      }
     }
-    overall_auto_success.forEach(val => {
-        if (val > 0) {
-            auto_switch_success.push(data.auto_switch_success[j]);
-            auto_scale_success.push(data.auto_scale_success[j]);
-            // auto_vault.push(data.auto_vault[j]);
-        }
-        j += 1;
-    });
 
-    console.log(auto_switch_success);
-    console.log(teleop_vault);
+    teleop_points = (3*inner_scored)+(2*outer_scored)+(lower_scored);
+    teleop_ppc= ((3*inner_scored)+(2*outer_scored)+(lower_scored))/total_cycles;
 
+    auto_points = (6*inner_scored)+(4*outer_scored)+(2*lower_scored);
+    auto_pps = ((6*inner_scored)+(4*outer_scored)+(2*lower_scored))/(inner_scored+outer_scored+outer_missed+lower_scored+lower_missed);
 
-    // createGraph();
-    console.log(switch_opp_accuracy_lst);
-    return [analyzeSet(auto_switch_success),
-        analyzeSet(auto_scale_success),
-        // analyzeSet(auto_vault),
-        analyzeSet(teleop_switch_success),
-        analyzeSet(teleop_scale_winning_success),
-        analyzeSet(teleop_scale_losing_success),
-        analyzeSet(teleop_opp_switch_success),
-        analyzeSet(teleop_vault),
-        switch_accuracy,
-        switch_opp_accuracy,
-        scale_winning_accuracy,
-        scale_losing_accuracy,
-        scale_overall_accuracy
-    ];
+    teleop_total.push(teleop_points);
+    auto_total.push(auto_points);
+    a_average_pps.push(auto_pps);
+    t_average_ppc.push(teleop_ppc)
+
+    if (data.defense_strength != 'None'){
+      defense_counter++
+    }
+
+    if (data.match_comment[i].includes('dc') || data.match_comment[i].includes('DC')){
+      dc_mentions++
+    }
+
+    if (data.match_comment[i].includes('brownout') || data.match_comment[i].includes('brown out') || data.match_comment[i].includes('Brown out')){
+      brownout_mention++
+    }
+
+    if (data.climb == 'Self Climb'){
+      self_climbs ++
+    }
+    else if (data.climb == 'Parked'){
+      parks++
+    }
+    else if (data.climb == 'Lifted Team'){
+      lifted_team_climbs++
+    }
+    else if (data.climb == 'Scale Leveled'){
+      scale_leveled++
+    }
+    else if (data.climb == 'Failed Climb'){
+      failed_climbs++
+    }
+    else if (data.climb == 'Failed Park'){
+      failed_parks++
+    }
+    else if (data.climb == 'Assisted Climb'){
+      assisted_climbs++
+    }
+    else if (data.climb == 'Did Not Attempt'){
+      did_not_attempts++
+    }
+  }
+
+  var max_index = 2;
+  for (x=0, x < pref_shot_type.length; x++){
+    if (pref_shot_type[x] > pref_shot_type[max_index]){
+      max_index = x
+    }
+  }
+
+  if (max_index == 0){
+    pref_shot = 'Inner'
+  } else if (max_index == 1){
+    pref_shot = 'Outer'
+  } else if (max_index == 2 && pref_shot_type[2] > 0) {
+    pref_shot = 'Lower'
+  } else {
+    pref_shot = 'None'
+  }
+
+  return [getMean(teleop_points),
+      getAverageStd(teleop_points),
+      getMean(teleop_ppc),
+      getAverageStd(teleop_ppc),
+      getMean(auto_points),
+      getAverageStd(auto_points),
+      getMean(auto_pps),
+      getAverageStd(auto_pps),
+      pref_shot,
+      dc_mentions,
+      brownout_mentions,
+      self_climbs,
+      parks,
+      lifted_team_climbs,
+      scale_leveled,
+      failed_climbs,
+      failed_parks,
+      assisted_climbs,
+      did_not_attempts,
+      defense_counter
+  ];
 
 }
 
@@ -325,7 +407,7 @@ function pushToStats(team) {
 //             .attr("transform", "rotate(-90)")
 //             .text("Cumulative # of Cubes");
 
-//         // add legend   
+//         // add legend
 //         var legend = svg.append("g")
 //             .attr("class", "legend")
 //             .attr("height", 1000)
