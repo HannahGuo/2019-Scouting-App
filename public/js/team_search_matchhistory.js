@@ -87,40 +87,41 @@ function matchHistoryTeleop() {
 
         for (j=0; j < c_inner_array.length; j++){
           c_inner += parseInt(c_inner_array[j]);
-          if (parseInt(c_inner_array[i]) > 0){
+          if (parseInt(c_inner_array[j]) > 0){
             total_inner_cycles += 1;
           }
-        };
+        }
 
         for (j=0; j < c_outer_missed_array.length; j++){
           c_outer_missed += parseInt(c_outer_missed_array[j]);
-          if (parseInt(c_outer_missed[i]) > '0'){
+          if (parseInt(c_outer_missed_array[j]) > 0){
             total_outer_cycles += 1;
           }
-        };
+        }
 
         for (j=0; j < c_outer_scored_array.length; j++){
           c_outer_scored += parseInt(c_outer_scored_array[j]);
-          if (parseInt(c_outer_scored_array[i]) > 0){
+          if (parseInt(c_outer_scored_array[j]) > 0){
             total_outer_cycles += 1;
           }
-        };
+        }
 
         for (j=0; j < c_lower_scored_array.length; j++){
           c_lower_scored += parseInt(c_lower_scored_array[j]);
-          if (parseInt(c_lower_scored_array[i]) > 0){
+          if (parseInt(c_lower_scored_array[j]) > 0){
             total_lower_cycles += 1;
           }
-        };
+        }
 
         for (j=0; j < c_lower_missed_array.length; j++){
           c_lower_missed += parseInt(c_lower_missed_array[j]);
-          if (parseInt(c_lower_missed_array[i]) > 0){
+          if (parseInt(c_lower_missed_array[j]) > 0){
             total_lower_cycles += 1;
           }
-        };
-        var total_cycles = total_inner_cycles+total_lower_cycles+total_outer_cycles;
-        var ppc = ((3*c_inner) + (2*c_outer_scored )+ c_lower_scored)/total_cycles;
+        }
+
+        var total_cycles = total_inner_cycles + total_lower_cycles + total_outer_cycles;
+        var ppc = ((3*c_inner) + (2*c_outer_scored )+ 1*(c_lower_scored))/total_cycles;
 
         var row = $('<tr></tr>');
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
