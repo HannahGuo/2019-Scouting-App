@@ -150,7 +150,7 @@ function matchHistoryClimb () {
         row.append($('<td></td>').text(data.climb_assist[i]));
         row.append($('<td></td>').text(data.climb_lift[i]));
         row.append($('<td></td>').text(data.climb_notes[i]));
-        row.append($('<td></td>').text(data.climb_scale_level[i]));
+        //row.append($('<td></td>').text(data.climb_scale_level[i]));
         row.append($('<td></td>').text(data.climb[i]));
 
 
