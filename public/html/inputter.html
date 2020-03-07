@@ -29,7 +29,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Team #</span>
 				</div>
-				<input id="team" class="form-control" placeholder="Number..." type="number" inputmode="numeric" pattern="[0-9]*" oninput="validTeam()">
+				<input id="team" class="form-control" placeholder="Number..." type="number" inputmode="numeric" pattern="[0-9]*">
 			</div>
 			<p id="teamCheck"></p>
 			<div class="input-group mb-3">
@@ -120,10 +120,10 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text">Moved Off Line?</span>
 							</div>
-							<label id="line_y" name="line" class="btn btn-outline-secondary active" value="1">
+							<label id="line" name="line" class="btn btn-outline-secondary active" value="1">
 								<input type="radio" name="line" id="line_yes" autocomplete="off">&nbsp;Yes&nbsp;
 							</label>
-							<label id="line_n" name="line" class="btn btn-outline-secondary" value="0">
+							<label id="line" name="line" class="btn btn-outline-secondary" value="0">
 								<input type="radio" name="line" id="line_no" autocomplete="off">&nbsp;No&nbsp;
 							</label>
 						</div>
@@ -591,6 +591,69 @@
 							</div>
 						</div>
 					</div>
+					<br>
+					<div class="row">
+						<div class="col">
+							<div class="input-group mb-3">
+							<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Fits under panel</span>
+							</div>
+							<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary" value="1">
+								<input type="radio" name="fit_panel" id="fit_panel_yes" autocomplete="off">&nbsp;Yes&nbsp;
+							</label>
+							<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary active" value="0">
+								<input type="radio" name="fit_panel" id="fit_panel_no" autocomplete="off">&nbsp;No&nbsp;
+							</label>
+						</div>
+					</div>
+						</div>
+					</div>
+										<div class="row">
+						<div class="col">
+							<h5>Strength of Defense</h5>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="good" value="Good" name="defense_strength" class="custom-control-input defense_strength">
+								<label class="custom-control-label" for="good">Good</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="mediocre" value="Mediocre" name="defense_strength" class="custom-control-input defense_strength">
+								<label class="custom-control-label" for="mediocre">Mediocre</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="bad" value="Bad" name="defense_strength" class="custom-control-input defense_strength">
+								<label class="custom-control-label" for="bad">Bad</label>
+							</div>
+						</div>
+						<div class="col">
+							<h5>Type of Defense</h5>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="man-man" value="ManMan" name="defense_type" class="custom-control-input defense_type">
+								<label class="custom-control-label" for="man-man">Man Man</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="shot_def" value="shot_def" name="defense_type" class="custom-control-input defense_type">
+								<label class="custom-control-label" for="shot_def">Shot Defence</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="ping_pong" value="Ping Pong" name="defense_type" class="custom-control-input defense_type">
+								<label class="custom-control-label" for="ping_pong">Ping Pong</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="double_team" value="double_team" name="defense_type" class="custom-control-input defense_type">
+								<label class="custom-control-label" for="double_team">Double Team</label>
+							</div>							
+							<div class="custom-control custom-radio">
+								<input type="radio" id="other_defense" value="Other" name="defense_type" class="custom-control-input defense_type">
+								<label class="custom-control-label" for="other_defense">Other</label>
+							<div class="input-group mb-3">
+								<form>
+									<input name="type_of_defense" id="type_of_defense" class="form-control" value="-" placeholder="Other..." style="display: none">
+								</form>
+							</div>
+							</div>
+						</div>
+					</div>	
 					
 					
 
@@ -617,6 +680,10 @@
 				<form>
 					<input name="lifted-climb-team" id="lifted-climb-team" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" style="display: none">
 				</form>
+			</div>
+			<div class="custom-control custom-radio">
+				<input type="radio" id="scale_level" value="Scale Leveled" name="climb" class="custom-control-input climb">
+				<label class="custom-control-label" for="scale_level">Scale Levelled</label>
 			</div>
 			<div class="custom-control custom-radio">
 				<input type="radio" id="failed-climb" value="Failed Climb" name="climb" class="custom-control-input climb">
