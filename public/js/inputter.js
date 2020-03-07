@@ -17,7 +17,7 @@ var teams = []
 // });
 
 $(document).ready(function() {
-    
+
         // $("#auto_switch_success").change(function() {
         //     if ((parseInt($('#auto_switch_success').val()) > 0) || (parseInt($('#auto_scale_success').val()) > 0)) {
         //         $("#baseline_n").removeClass("active");
@@ -58,7 +58,7 @@ $(document).ready(function() {
             console.log("false");
             document.getElementById("failed-climb-attempt").style.display = "none";
         }
-        
+
     });
 });
 
@@ -134,55 +134,55 @@ function updateDatabase() {
             teleop_outer_success_c1: parseInt($('#teleop_outer_success_c1').val()),
             teleop_outer_fail_c1: parseInt($('#teleop_outer_fail_c1').val()),
             teleop_inner_c1: parseInt($('#teleop_inner_c1').val()),
-            
+
             teleop_lower_success_c2: parseInt($('#teleop_lower_success_c2').val()),
             teleop_lower_fail_c2: parseInt($('#teleop_lower_fail_c2').val()),
             teleop_outer_success_c2: parseInt($('#teleop_outer_success_c2').val()),
             teleop_outer_fail_c2: parseInt($('#teleop_outer_fail_c2').val()),
             teleop_inner_c2: parseInt($('#teleop_inner_c2').val()),
-            
+
             teleop_lower_success_c3: parseInt($('#teleop_lower_success_c3').val()),
             teleop_lower_fail_c3: parseInt($('#teleop_lower_fail_c3').val()),
             teleop_outer_success_c3: parseInt($('#teleop_outer_success_c3').val()),
             teleop_outer_fail_c3: parseInt($('#teleop_outer_fail_c3').val()),
             teleop_inner_c3: parseInt($('#teleop_inner_c3').val()),
-            
+
             teleop_lower_success_c4: parseInt($('#teleop_lower_success_c4').val()),
             teleop_lower_fail_c4: parseInt($('#teleop_lower_fail_c4').val()),
             teleop_outer_success_c4: parseInt($('#teleop_outer_success_c4').val()),
             teleop_outer_fail_c4: parseInt($('#teleop_outer_fail_c4').val()),
             teleop_inner_c4: parseInt($('#teleop_inner_c4').val()),
-            
+
             teleop_lower_success_c5: parseInt($('#teleop_lower_success_c5').val()),
             teleop_lower_fail_c5: parseInt($('#teleop_lower_fail_c5').val()),
             teleop_outer_success_c5: parseInt($('#teleop_outer_success_c5').val()),
             teleop_outer_fail_c5: parseInt($('#teleop_outer_fail_c5').val()),
             teleop_inner_c5: parseInt($('#teleop_inner_c5').val()),
-            
+
             teleop_lower_success_c6: parseInt($('#teleop_lower_success_c6').val()),
             teleop_lower_fail_c6: parseInt($('#teleop_lower_fail_c6').val()),
             teleop_outer_success_c6: parseInt($('#teleop_outer_success_c6').val()),
             teleop_outer_fail_c6: parseInt($('#teleop_outer_fail_c6').val()),
             teleop_inner_c6: parseInt($('#teleop_inner_c6').val()),
-            
+
             teleop_lower_success_c7: parseInt($('#teleop_lower_success_c7').val()),
             teleop_lower_fail_c7: parseInt($('#teleop_lower_fail_c7').val()),
             teleop_outer_success_c7: parseInt($('#teleop_outer_success_c7').val()),
             teleop_outer_fail_c7: parseInt($('#teleop_outer_fail_c7').val()),
             teleop_inner_c7: parseInt($('#teleop_inner_c7').val()),
-            
+
             teleop_lower_success_c8: parseInt($('#teleop_lower_success_c8').val()),
             teleop_lower_fail_c8: parseInt($('#teleop_lower_fail_c8').val()),
             teleop_outer_success_c8: parseInt($('#teleop_outer_success_c8').val()),
             teleop_outer_fail_c8: parseInt($('#teleop_outer_fail_c8').val()),
             teleop_inner_c8: parseInt($('#teleop_inner_c8').val()),
-            
+
             teleop_lower_success_c9: parseInt($('#teleop_lower_success_c9').val()),
             teleop_lower_fail_c9: parseInt($('#teleop_lower_fail_c9').val()),
             teleop_outer_success_c9: parseInt($('#teleop_outer_success_c9').val()),
             teleop_outer_fail_c9: parseInt($('#teleop_outer_fail_c9').val()),
             teleop_inner_c9: parseInt($('#teleop_inner_c9').val()),
-            
+
             teleop_lower_success_c10: parseInt($('#teleop_lower_success_c10').val()),
             teleop_lower_fail_c10: parseInt($('#teleop_lower_fail_c10').val()),
             teleop_outer_success_c10: parseInt($('#teleop_outer_success_c10').val()),
@@ -207,7 +207,7 @@ function updateDatabase() {
             match_scouter: $('#scouter').val() === "" ? "-" : $('#scouter').val(),
             match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
 
-          
+
         })
         .then(function(done) {
             console.log("Successfully uploaded data to allteams/" + team + "/matches/" + newKey);
