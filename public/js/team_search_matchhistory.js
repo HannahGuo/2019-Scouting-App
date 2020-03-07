@@ -2,7 +2,8 @@ function populateMatchHistory() {
     matchHistoryOverall();
     matchHistoryAuto();
     matchHistoryTeleop();
-    matchHistoryMisc();
+    matchHistoryClimb();
+    matchHistoryDefense();
     matchHistoryComments();
     pitData();
 }
@@ -16,9 +17,6 @@ function matchHistoryOverall() {
         var row = $('<tr></tr>');
 
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
-        row.append($('<td></td>').text(data.overall_auto_success[i] + " : " + data.overall_auto_fail[i]));
-        row.append($('<td></td>').text(data.overall_teleop_success[i] + " : " + data.overall_teleop_fail[i]));
-
         $('#overall_table').append(row);
 
     }
@@ -32,14 +30,14 @@ function matchHistoryAuto() {
     for (i = 0; i < data.match_number.length; i++) {
 
         var row = $('<tr></tr>');
-
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
-        row.append($('<td></td>').text(data.auto_switch_success[i] + " : " + data.auto_switch_fail[i]));
-        row.append($('<td></td>').text(data.auto_scale_success[i] + " : " + data.auto_scale_fail[i]));
-        // row.append($('<td></td>').text(data.auto_vault[i]));
-        row.append($('<td></td>').text(data.auto_baseline[i] == 1 ? "Yes" : "No"));
-        row.append($('<td></td>').text(data.scale_position[i]));
-
+        row.append($('<td></td>').text(data.auto_innerport_success[i] ));
+        row.append($('<td></td>').text(data.auto_outerport_fail[i]));
+        row.append($('<td></td>').text(data.auto_outerport_success[i]));
+        row.append($('<td></td>').text(data.auto_lowport_fail[i]));
+        row.append($('<td></td>').text(data.auto_lowport_success[i]));
+        row.append($('<td></td>').text(data.auto_line[i]));
+        row.append($('<td></td>').text(data.no_auto[i]));
         $('#auto_table').append(row);
 
     }
@@ -52,14 +50,64 @@ function matchHistoryTeleop() {
 
     for (i = 0; i < data.match_number.length; i++) {
 
-        var row = $('<tr></tr>');
+        var c_inner = 0;
+        var c_outer_missed = 0;
+        var c_outer_scored = 0;
+        var c_lower_missed = 0;
+        var c_lower_scored = 0;
 
+        var c_inner_array = [data.teleop_inner_c1[i],data.teleop_inner_c2[i],
+        data.teleop_inner_c3[i],data.teleop_inner_c4[i],data.teleop_inner_c5[i],
+        data.teleop_inner_c6[i],data.teleop_inner_c7[i],data.teleop_inner_c8[i],
+        data.teleop_inner_c9[i],data.teleop_inner_c10[i]];
+
+        var c_outer_missed_array = [data.teleop_outer_fail_c1[i],data.teleop_outer_fail_c2[i],
+        data.teleop_outer_fail_c3[i],data.teleop_outer_fail_c4[i],data.teleop_outer_fail_c5[i],
+        data.teleop_outer_fail_c6[i],data.teleop_outer_fail_c7[i],data.teleop_outer_fail_c8[i],
+        data.teleop_outer_fail_c9[i],data.teleop_outer_fail_c10[i]];
+
+        var c_outer_scored_array = [data.teleop_outer_success_c1[i],data.teleop_outer_success_c2[i],
+        data.teleop_outer_success_c3[i],data.teleop_outer_success_c4[i],data.teleop_outer_success_c5[i],
+        data.teleop_outer_success_c6[i],data.teleop_outer_success_c7[i],data.teleop_outer_success_c8[i],
+        data.teleop_outer_success_c9[i],data.teleop_outer_success_c10[i]];
+
+        var c_lower_missed_array = [data.teleop_lower_fail_c1[i],data.teleop_lower_fail_c2[i],
+        data.teleop_lower_fail_c3[i],data.teleop_lower_fail_c4[i],data.teleop_lower_fail_c5[i],
+        data.teleop_lower_fail_c6[i],data.teleop_lower_fail_c7[i],data.teleop_lower_fail_c8[i],
+        data.teleop_lower_fail_c9[i],data.teleop_lower_fail_c10[i]];
+
+        var c_lower_scored_array = [data.teleop_lower_success_c1[i],data.teleop_lower_success_c2[i],
+        data.teleop_lower_success_c3[i],data.teleop_lower_success_c4[i],data.teleop_lower_success_c5[i],
+        data.teleop_lower_success_c6[i],data.teleop_lower_success_c7[i],data.teleop_lower_success_c8[i],
+        data.teleop_lower_success_c9[i],data.teleop_lower_success_c10[i]];
+
+        for (j=0; j < c_inner_array.length; j++){
+          c_inner += parseInt(c_inner_array[j]);
+        };
+
+        for (j=0; j < c_outer_missed_array.length; j++){
+          c_outer_missed += parseInt(c_outer_missed_array[j]);
+        };
+
+        for (j=0; j < c_outer_scored_array.length; j++){
+          c_outer_scored += parseInt(c_outer_scored_array[j]);
+        };
+
+        for (j=0; j < c_lower_scored_array.length; j++){
+          c_lower_scored += parseInt(c_lower_scored_array[j]);
+        };
+
+        for (j=0; j < c_lower_missed_array.length; j++){
+          c_lower_missed += parseInt(c_lower_missed_array[j]);
+        };
+
+        var row = $('<tr></tr>');
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
-        row.append($('<td></td>').text(data.teleop_switch_success[i] + " : " + data.teleop_switch_fail[i]));
-        row.append($('<td></td>').text(data.teleop_scale_winning_success[i] + " : " + data.teleop_scale_winning_fail[i]));
-        row.append($('<td></td>').text(data.teleop_scale_losing_success[i] + " : " + data.teleop_scale_losing_fail[i]));
-        row.append($('<td></td>').text(data.teleop_opp_switch_success[i] + " : " + data.teleop_opp_switch_fail[i]));
-        row.append($('<td></td>').text(data.teleop_vault[i]));
+        row.append($('<td></td>').text(c_inner.toString()));
+        row.append($('<td></td>').text(c_outer_missed.toString()));
+        row.append($('<td></td>').text(c_outer_scored.toString()));
+        row.append($('<td></td>').text(c_lower_missed.toString()));
+        row.append($('<td></td>').text(c_lower_scored.toString()));
 
         $('#teleop_table').append(row);
 
@@ -67,25 +115,40 @@ function matchHistoryTeleop() {
 
 }
 
-function matchHistoryMisc() {
+function matchHistoryClimb () {
 
-    $('#misc_table').html("");
+    $('#climb_table').html("");
 
     for (i = 0; i < data.match_number.length; i++) {
 
         var row = $('<tr></tr>');
 
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
-        row.append($('<td></td>').text(data.match_startpos[i][0].toUpperCase() + data.match_startpos[i].substring(1)));
-        row.append($('<td></td>').text(data.climb[i] + ". " + data.climb_notes[i]));
+        row.append($('<td></td>').text(data.climb[i]));
         row.append($('<td></td>').text(data.climb_assist[i]));
         row.append($('<td></td>').text(data.climb_lift[i]));
+        row.append($('<td></td>').text(data.climb_notes[i]));
 
 
-        $('#misc_table').append(row);
+        $('#climb_table').append(row);
 
     }
+}
 
+function matchHistoryDefense() {
+
+    $('#defense_table').html("");
+
+    for (i = 0; i < data.match_number.length; i++) {
+
+        var row = $('<tr></tr>');
+
+        row.append($('<th scope="row"></th>').text(data.match_number[i]));
+
+
+        $('#defense_table').append(row);
+
+    }
 }
 
 function matchHistoryComments() {
@@ -98,8 +161,7 @@ function matchHistoryComments() {
 
         row.append($('<th scope="row"></th>').text(data.match_number[i]));
         row.append($('<td></td>').text(data.match_scouter[i]));
-        row.append($('<td></td>').text(data.match_comment[i]));
-        row.append($('<td></td>').text(data.compiler_email[i]));
+        row.append($('<td></td>').text(data.match_comment[i])); 
 
         $('#comment_table').append(row);
 
