@@ -19,7 +19,7 @@
 	<body>
 		<div w3-include-html="/html/nav.html"></div>
 		<script src="/js/init.js"></script>
-		<script src="/js/inputter.js"></script>
+		<script src="/js/inputter.js?v1.1"></script>
 		<div class="container">
 			<br>
 			<h1>
@@ -541,10 +541,6 @@
 								</div>
 								<input id="teleop_inner_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
 							</div>
-							<div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
 						</div>
 					</div>
 
@@ -613,6 +609,10 @@
 						<div class="col">
 							<h5>Strength of Defense</h5>
 							<div class="custom-control custom-radio">
+								<input type="radio" id="none" value="None" name="defense_strength" class="custom-control-input defense_strength active">
+								<label class="custom-control-label" for="none">None</label>
+							</div>
+							<div class="custom-control custom-radio">
 								<input type="radio" id="good" value="Good" name="defense_strength" class="custom-control-input defense_strength">
 								<label class="custom-control-label" for="good">Good</label>
 							</div>
@@ -627,6 +627,10 @@
 						</div>
 						<div class="col">
 							<h5>Type of Defense</h5>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="none-def" value="No_defense" name="defense_type" class="custom-control-input defense_type active">
+								<label class="custom-control-label" for="none-def">N/A</label>
+							</div>
 							<div class="custom-control custom-radio">
 								<input type="radio" id="man-man" value="ManMan" name="defense_type" class="custom-control-input defense_type">
 								<label class="custom-control-label" for="man-man">Man Man</label>

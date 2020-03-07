@@ -51,13 +51,13 @@ $(document).ready(function() {
             console.log("false");
             document.getElementById("lifted-climb-team").style.display = "none";
         }
-        if ($('input[id=failed-climb]:checked').val() === "Failed Climb") {
-            console.log("true");
-            document.getElementById("failed-climb-attempt").style.display = "block";
-        } else {
-            console.log("false");
-            document.getElementById("failed-climb-attempt").style.display = "none";
-        }
+        // if ($('input[id=failed-climb]:checked').val() === "Failed Climb") {
+        //     console.log("true");
+        //     document.getElementById("failed-climb-attempt").style.display = "block";
+        // } else {
+        //     console.log("false");
+        //     document.getElementById("failed-climb-attempt").style.display = "none";
+        // }
 
     });
 });
@@ -194,8 +194,6 @@ function updateDatabase() {
             climb: document.querySelector('input[name="climb"]:checked').value,
             climb_assist: $('#assisted-climb-team').val(),
             climb_lift: $('#lifted-climb-team').val(),
-            climb_fail: $('#failed-climb').val(),
-            climb_scale_level: $('#scale_level').val(),
             climb_notes: $('#climb_other').val(),
 
             defense_strength: document.querySelector('input[name="defense_strength"]:checked').value,
