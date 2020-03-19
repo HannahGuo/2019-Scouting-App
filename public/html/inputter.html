@@ -1,738 +1,884 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Input Match Data</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="/css/styles.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.css" />
-		<link href="/css/jquery-ui.css" rel="Stylesheet"></link>
-		<script src="/js/jquery-3.3.1.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-		<script src="/js/w3data.js"></script>
-	</head>
-	<body>
-		<div w3-include-html="/html/nav.html"></div>
-		<script src="/js/init.js"></script>
-		<script src="/js/inputter.js?v1.1"></script>
-		<div class="container">
-			<br>
-			<h1>
+
+<head>
+	<title>Input Match Data</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.css" />
+	<link href="/css/jquery-ui.css" rel="Stylesheet">
+	</link>
+	<script src="/js/jquery-3.3.1.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+	<script src="/js/w3data.js"></script>
+	<style>
+		.inputScored,
+		.inputInner {
+			background-color: #c0f2bf;
+		}
+
+		.inputMissed {
+			background-color: #f7cbc8;
+			width: 20px;
+		}
+
+		.inputInnerGroup {
+			margin-top: 20px;
+			width: 70%;
+		}
+
+		.rowBG {
+			background-image: url(../images/scoreBG.png);
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;
+			padding: 50px;
+			margin: 0 auto;
+		}
+
+		.spaceMe {
+			margin-left: 120px;
+			margin-right: 120px;
+		}
+
+		.inputCellPick {
+			background-color: #faf7a0;
+		}
+
+		.inputCellMiss {
+			background-color: #faa198;
+		}
+
+		h6 {
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div w3-include-html="/html/nav.html"></div>
+	<script src="/js/init.js"></script>
+	<script src="/js/inputter.js?v1.1"></script>
+	<div class="container">
+		<br>
+		<h1>
 			Data Entry!
-			</h1>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">Team #</span>
-				</div>
-				<input id="team" class="form-control" placeholder="Number..." type="number" inputmode="numeric" pattern="[0-9]*">
+		</h1>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Team #</span>
 			</div>
-			<p id="teamCheck"></p>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">Match #</span>
-				</div>
-				<input id="matchnumber" class="form-control" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
+			<input id="team" class="form-control" placeholder="Number..." type="number" inputmode="numeric"
+				pattern="[0-9]*">
+		</div>
+		<p id="teamCheck"></p>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Match #</span>
 			</div>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text">Scouter</span>
-				</div>
-				<input id="scouter" type="text" class="form-control" placeholder="Name...">
+			<input id="matchnumber" class="form-control" placeholder="Number..." type="number" min="0"
+				inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Scouter</span>
 			</div>
-			<br>
-			<div class="row">
-				<div class="col">
-					<h5>
+			<input id="scouter" type="text" class="form-control" placeholder="Name...">
+		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+				<h5>
 					Autonomous:
-					</h5>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Cells Picked Up</span>
-								</div>
-								<input id="auto_cells_pickup" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Cells Missed</span>
-								</div>
-								<input id="auto_cells_missed" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Low Port Scored</span>
-								</div>
-								<input id="auto_lowport_success" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Low Port Missed</span>
-								</div>
-								<input id="auto_lowport_fail" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Port Scored</span>
-								</div>
-								<input id="auto_outerport_success" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Port Missed</span>
-								</div>
-								<input id="auto_outerport_fail" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-6">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner Port Scored</span>
-								</div>
-								<input id="auto_innerport_success" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="50">
-							</div>
-						</div>
-					</div>
-					<br>
-					<div class="input-group mb-3">
-						<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+				</h5>
+				<div class="row">
+					<div class="col">
+						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text">Moved Off Line?</span>
+								<span class="input-group-text">Cells Picked Up</span>
 							</div>
-							<label id="line" name="line" class="btn btn-outline-secondary active" value="1">
-								<input type="radio" name="line" id="line_yes" autocomplete="off">&nbsp;Yes&nbsp;
-							</label>
-							<label id="line" name="line" class="btn btn-outline-secondary" value="0">
-								<input type="radio" name="line" id="line_no" autocomplete="off">&nbsp;No&nbsp;
-							</label>
+							<input id="auto_cells_pickup" class="form-control inputCellPick" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
 						</div>
 					</div>
-					<div class="input-group mb-3">
-						<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+					<div class="col">
+						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text">No Auto</span>
+								<span class="input-group-text">Cells Missed</span>
 							</div>
-							<label id="auto_n" name="auto" class="btn btn-outline-secondary" value="1">
-								<input type="radio" name="auto" id="auto_no" autocomplete="off">&nbsp;Yes&nbsp;
-							</label>
-							<label id="auto_y" name="auto" class="btn btn-outline-secondary active" value="0">
-								<input type="radio" name="auto" id="auto_yes" autocomplete="off">&nbsp;No&nbsp;
-							</label>
+							<input id="auto_cells_missed" class="form-control inputCellMiss" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
 						</div>
 					</div>
-					<br>
-					
-					<h5>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Low Port Scored</span>
+							</div>
+							<input id="auto_lowport_success" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Low Port Missed</span>
+							</div>
+							<input id="auto_lowport_fail" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Port Scored</span>
+							</div>
+							<input id="auto_outerport_success" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Port Missed</span>
+							</div>
+							<input id="auto_outerport_fail" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="input-group mb-6">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner Port Scored</span>
+							</div>
+							<input id="auto_innerport_success" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="50">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="input-group mb-3">
+					<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Moved Off Line?</span>
+						</div>
+						<label id="line" name="line" class="btn btn-outline-secondary active" value="1">
+							<input type="radio" name="line" id="line_yes" autocomplete="off">&nbsp;Yes&nbsp;
+						</label>
+						<label id="line" name="line" class="btn btn-outline-secondary" value="0">
+							<input type="radio" name="line" id="line_no" autocomplete="off">&nbsp;No&nbsp;
+						</label>
+					</div>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+						<div class="input-group-prepend">
+							<span class="input-group-text">No Auto</span>
+						</div>
+						<label id="auto_n" name="auto" class="btn btn-outline-secondary" value="1">
+							<input type="radio" name="auto" id="auto_no" autocomplete="off">&nbsp;Yes&nbsp;
+						</label>
+						<label id="auto_y" name="auto" class="btn btn-outline-secondary active" value="0">
+							<input type="radio" name="auto" id="auto_yes" autocomplete="off">&nbsp;No&nbsp;
+						</label>
+					</div>
+				</div>
+				<br>
+
+				<h5>
 					Teleoperated:
-					</h5>
-					<h6>Cycle 1</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c1" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c1" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c1" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c1" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c1" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 2</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c2" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c2" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c2" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c2" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c2" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-
-					<h6>Cycle 3</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c3" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c3" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c3" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c3" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c3" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 4</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c4" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c4" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c4" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c4" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c4" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 5</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c5" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c5" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c5" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c5" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c5" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 6</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c6" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c6" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c6" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c6" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c6" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-
-					<h6>Cycle 7</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c7" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c7" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c7" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c7" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c7" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 8</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c8" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c8" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c8" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c8" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c8" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 9</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c9" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-
-					<h6>Cycle 10</h6>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower Sc</span>
-								</div>
-								<input id="teleop_lower_success_c10" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Lower M</span>
-								</div>
-								<input id="teleop_lower_fail_c10" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer Sc</span>
-								</div>
-								<input id="teleop_outer_success_c10" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Outer M</span>
-								</div>
-								<input id="teleop_outer_fail_c10" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-						<div class="col">
-							<div class="input-group mb-1">
-								<div class="input-group-prepend">
-									<span class="input-group-text">Inner</span>
-								</div>
-								<input id="teleop_inner_c10" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" max="54">
-							</div>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col">
-							<div class="input-group mb-3">
-							<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+				</h5>
+				<h6>Cycle 1</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
 							<div class="input-group-prepend">
-								<span class="input-group-text">Fits under panel</span>
+								<span class="input-group-text">Lower Sc</span>
 							</div>
-							<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary" value="1">
-								<input type="radio" name="fit_panel" id="fit_panel_yes" autocomplete="off">&nbsp;Yes&nbsp;
-							</label>
-							<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary active" value="0">
-								<input type="radio" name="fit_panel" id="fit_panel_no" autocomplete="off">&nbsp;No&nbsp;
-							</label>
+							<input id="teleop_lower_success_c1" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c1" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
 						</div>
 					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c1" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c1" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
 						</div>
 					</div>
-										<div class="row">
-						<div class="col">
-							<h5>Strength of Defense</h5>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="none" value="None" name="defense_strength" class="custom-control-input defense_strength active">
-								<label class="custom-control-label" for="none">None</label>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
 							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="good" value="Good" name="defense_strength" class="custom-control-input defense_strength">
-								<label class="custom-control-label" for="good">Good</label>
+							<input id="teleop_inner_c1" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 2</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
 							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="mediocre" value="Mediocre" name="defense_strength" class="custom-control-input defense_strength">
-								<label class="custom-control-label" for="mediocre">Mediocre</label>
+							<input id="teleop_lower_success_c2" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
 							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="bad" value="Bad" name="defense_strength" class="custom-control-input defense_strength">
-								<label class="custom-control-label" for="bad">Bad</label>
+							<input id="teleop_lower_fail_c2" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c2" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c2" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c2" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+
+				<h6>Cycle 3</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c3" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c3" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c3" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c3" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c3" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 4</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c4" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c4" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c4" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c4" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c4" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 5</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c5" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c5" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c5" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c5" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c5" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 6</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c6" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c6" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c6" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c6" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c6" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+
+				<h6>Cycle 7</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c7" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c7" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c7" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c7" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c7" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 8</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c8" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c8" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c8" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c8" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c8" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 9</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c9" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c9" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c9" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c9" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c9" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+
+				<h6>Cycle 10</h6>
+				<div class="row rowBG">
+					<div class="col">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower Sc</span>
+							</div>
+							<input id="teleop_lower_success_c10" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Lower M</span>
+							</div>
+							<input id="teleop_lower_fail_c10" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col spaceMe">
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer Sc</span>
+							</div>
+							<input id="teleop_outer_success_c10" class="form-control inputScored" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+						<div class="input-group mb-1">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Outer M</span>
+							</div>
+							<input id="teleop_outer_fail_c10" class="form-control inputMissed" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+					<div class="col">
+						<div class="input-group mb-1 inputInnerGroup">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Inner</span>
+							</div>
+							<input id="teleop_inner_c10" class="form-control inputInner" value="0"
+								placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+								title="Non-negative integral number" max="54">
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col">
+						<div class="input-group mb-3">
+							<div class="input-group btn-group btn-group-toggle" data-toggle="buttons">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Fits under panel</span>
+								</div>
+								<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary" value="1">
+									<input type="radio" name="fit_panel" id="fit_panel_yes"
+										autocomplete="off">&nbsp;Yes&nbsp;
+								</label>
+								<label id="fit_panel_y" name="fit_panel" class="btn btn-outline-secondary active"
+									value="0">
+									<input type="radio" name="fit_panel" id="fit_panel_no"
+										autocomplete="off">&nbsp;No&nbsp;
+								</label>
 							</div>
 						</div>
-						<div class="col">
-							<h5>Type of Defense</h5>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="none-def" value="No_defense" name="defense_type" class="custom-control-input defense_type active">
-								<label class="custom-control-label" for="none-def">N/A</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="man-man" value="ManMan" name="defense_type" class="custom-control-input defense_type">
-								<label class="custom-control-label" for="man-man">Man Man</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="shot_def" value="shot_def" name="defense_type" class="custom-control-input defense_type">
-								<label class="custom-control-label" for="shot_def">Shot Defence</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="ping_pong" value="Ping Pong" name="defense_type" class="custom-control-input defense_type">
-								<label class="custom-control-label" for="ping_pong">Ping Pong</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input type="radio" id="double_team" value="double_team" name="defense_type" class="custom-control-input defense_type">
-								<label class="custom-control-label" for="double_team">Double Team</label>
-							</div>							
-							<div class="custom-control custom-radio">
-								<input type="radio" id="other_defense" value="Other" name="defense_type" class="custom-control-input defense_type">
-								<label class="custom-control-label" for="other_defense">Other</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h5>Strength of Defense</h5>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="none" value="None" name="defense_strength"
+								class="custom-control-input defense_strength active">
+							<label class="custom-control-label" for="none">None</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="good" value="Good" name="defense_strength"
+								class="custom-control-input defense_strength">
+							<label class="custom-control-label" for="good">Good</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="mediocre" value="Mediocre" name="defense_strength"
+								class="custom-control-input defense_strength">
+							<label class="custom-control-label" for="mediocre">Mediocre</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="bad" value="Bad" name="defense_strength"
+								class="custom-control-input defense_strength">
+							<label class="custom-control-label" for="bad">Bad</label>
+						</div>
+					</div>
+					<div class="col">
+						<h5>Type of Defense</h5>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="none-def" value="No_defense" name="defense_type"
+								class="custom-control-input defense_type active">
+							<label class="custom-control-label" for="none-def">N/A</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="man-man" value="ManMan" name="defense_type"
+								class="custom-control-input defense_type">
+							<label class="custom-control-label" for="man-man">Man Man</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="shot_def" value="shot_def" name="defense_type"
+								class="custom-control-input defense_type">
+							<label class="custom-control-label" for="shot_def">Shot Defence</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="ping_pong" value="Ping Pong" name="defense_type"
+								class="custom-control-input defense_type">
+							<label class="custom-control-label" for="ping_pong">Ping Pong</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="double_team" value="double_team" name="defense_type"
+								class="custom-control-input defense_type">
+							<label class="custom-control-label" for="double_team">Double Team</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="other_defense" value="Other" name="defense_type"
+								class="custom-control-input defense_type">
+							<label class="custom-control-label" for="other_defense">Other</label>
 							<div class="input-group mb-3">
 								<form>
-									<input name="type_of_defense" id="type_of_defense" class="form-control" value="-" placeholder="Other..." style="display: none">
+									<input name="type_of_defense" id="type_of_defense" class="form-control" value="-"
+										placeholder="Other..." style="display: none">
 								</form>
 							</div>
-							</div>
 						</div>
-					</div>	
-					
-					
-
-
+					</div>
 				</div>
 			</div>
-			<br>
-			<h5>
-			Climb:
-			</h5>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="self-climb" value="Self Climb" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="self-climb">Self-Climbed</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="parked" value="Parked" name="climb" class="custom-control-input climb" checked>
-				<label class="custom-control-label active" for="parked">Parked</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="lifted-team" value="Lifted Team" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="lifted-team">Lifted Team</label>
-			</div>
-			<div class="input-group mb-3">
-				<form>
-					<input name="lifted-climb-team" id="lifted-climb-team" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" style="display: none">
-				</form>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="scale_level" value="Scale Leveled" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="scale_level">Scale Levelled</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="failed-climb" value="Failed Climb" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="failed-climb">Failed Climb</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="failed-park" value="Failed Park" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="failed-park">Failed Park</label>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="assisted-climb" value="Assisted Climb" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="assisted-climb">Assisted by</label>
-			</div>
-			<div class="input-group mb-3">
-				<form>
-					<input name="assisted-climb-team" id="assisted-climb-team" class="form-control" value="0" placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" style="display: none">
-				</form>
-			</div>
-			<div class="custom-control custom-radio">
-				<input type="radio" id="did-not-attempt" value="Did not Attempt" name="climb" class="custom-control-input climb">
-				<label class="custom-control-label" for="did-not-attempt">Did not Attempt</label>
-			</div>
-			<br>
-			<h5>
-			Climb Comments:
-			</h5>
-			<div class="input-group">
-				<textarea id="climb_other" class="form-control" placeholder="Climb Comments..."></textarea>
-			</div>
-			<br>
-			<h5>
-			Comments:
-			</h5>
-			<div class="input-group">
-				<textarea id="comment" class="form-control" placeholder="Comments..."></textarea>
-			</div>
-			<br>
-			<button class="btn btn-block btn-primary" onclick="submitData()">Submit</button>
-			<div id="uploading"></div>
-			<br>
-			<br>
 		</div>
-		<div w3-include-html="/html/footer.html"></div>
-		<script>
+		<br>
+		<h5>
+			Climb:
+		</h5>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="self-climb" value="Self Climb" name="climb" class="custom-control-input climb">
+			<label class="custom-control-label" for="self-climb">Self-Climbed</label>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="parked" value="Parked" name="climb" class="custom-control-input climb" checked>
+			<label class="custom-control-label active" for="parked">Parked</label>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="lifted-team" value="Lifted Team" name="climb" class="custom-control-input climb">
+			<label class="custom-control-label" for="lifted-team">Lifted Team</label>
+		</div>
+		<div class="input-group mb-3">
+			<form>
+				<input name="lifted-climb-team" id="lifted-climb-team" class="form-control" value="0"
+					placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+					title="Non-negative integral number" style="display: none">
+			</form>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="scale_level" value="Scale Leveled" name="climb" class="custom-control-input climb">
+			<label class="custom-control-label" for="scale_level">Scale Levelled</label>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="failed-climb" value="Failed Climb" name="climb" class="custom-control-input climb">
+			<label class="custom-control-label" for="failed-climb">Failed Climb</label>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="failed-park" value="Failed Park" name="climb" class="custom-control-input climb">
+			<label class="custom-control-label" for="failed-park">Failed Park</label>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="assisted-climb" value="Assisted Climb" name="climb"
+				class="custom-control-input climb">
+			<label class="custom-control-label" for="assisted-climb">Assisted by</label>
+		</div>
+		<div class="input-group mb-3">
+			<form>
+				<input name="assisted-climb-team" id="assisted-climb-team" class="form-control" value="0"
+					placeholder="Number..." type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+					title="Non-negative integral number" style="display: none">
+			</form>
+		</div>
+		<div class="custom-control custom-radio">
+			<input type="radio" id="did-not-attempt" value="Did not Attempt" name="climb"
+				class="custom-control-input climb">
+			<label class="custom-control-label" for="did-not-attempt">Did not Attempt</label>
+		</div>
+		<br>
+		<h5>
+			Climb Comments:
+		</h5>
+		<div class="input-group">
+			<textarea id="climb_other" class="form-control" placeholder="Climb Comments..."></textarea>
+		</div>
+		<br>
+		<h5>
+			Comments:
+		</h5>
+		<div class="input-group">
+			<textarea id="comment" class="form-control" placeholder="Comments..."></textarea>
+		</div>
+		<br>
+		<button class="btn btn-block btn-primary" onclick="submitData()">Submit</button>
+		<div id="uploading"></div>
+		<br>
+		<br>
+	</div>
+	<div w3-include-html="/html/footer.html"></div>
+	<script>
 		w3IncludeHTML();
-		</script>
-	</body>
+	</script>
+</body>
+
 </html>
