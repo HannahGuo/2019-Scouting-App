@@ -1,4 +1,4 @@
-const db = firebase.database().ref('allteams/');
+const db = firebase.database().ref();
 
 var matchNumber = 0;
 var valKey = [];
@@ -16,27 +16,27 @@ var teams = []
 //     }
 // });
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-        // $("#auto_switch_success").change(function() {
-        //     if ((parseInt($('#auto_switch_success').val()) > 0) || (parseInt($('#auto_scale_success').val()) > 0)) {
-        //         $("#baseline_n").removeClass("active");
-        //         $("#baseline_y").addClass("active");
-        //     } else {
-        //         $("#baseline_n").addClass("active");
-        //         $("#baseline_y").removeClass("active");
-        //     }
-        // });
-        // $("#auto_scale_success").change(function() {
-        //     if ((parseInt($('#auto_switch_success').val()) > 0) || (parseInt($('#auto_scale_success').val()) > 0)) {
-        //         $("#baseline_n").removeClass("active");
-        //         $("#baseline_y").addClass("active");
-        //     } else {
-        //         $("#baseline_n").addClass("active");
-        //         $("#baseline_y").removeClass("active");
-        //     }
-        // });
-     $('.climb').change(function() {
+    // $("#auto_switch_success").change(function() {
+    //     if ((parseInt($('#auto_switch_success').val()) > 0) || (parseInt($('#auto_scale_success').val()) > 0)) {
+    //         $("#baseline_n").removeClass("active");
+    //         $("#baseline_y").addClass("active");
+    //     } else {
+    //         $("#baseline_n").addClass("active");
+    //         $("#baseline_y").removeClass("active");
+    //     }
+    // });
+    // $("#auto_scale_success").change(function() {
+    //     if ((parseInt($('#auto_switch_success').val()) > 0) || (parseInt($('#auto_scale_success').val()) > 0)) {
+    //         $("#baseline_n").removeClass("active");
+    //         $("#baseline_y").addClass("active");
+    //     } else {
+    //         $("#baseline_n").addClass("active");
+    //         $("#baseline_y").removeClass("active");
+    //     }
+    // });
+    $('.climb').change(function () {
         if ($('input[id=assisted-climb]:checked').val() === "Assisted Climb") {
             console.log("true");
             document.getElementById("assisted-climb-team").style.display = "block";
@@ -68,11 +68,11 @@ function submitData() {
 
     $('#uploading').html("");
 
-    if (inputVerification()) {
+    // if (inputVerification()) {
 
-        updateDatabase();
+    updateDatabase();
 
-    }
+    // }
 
 }
 
@@ -110,130 +110,148 @@ function inputVerification() {
     return check;
 }
 
+
 function updateDatabase() {
-
     var team = $('#team').val();
-    var updateCount = {};
-    // updateCount['match-count'] = matchNumber;
-    db.child(team).update(updateCount);
-    var newKey = db.push().key;
-    db.child(team + '/' + newKey).set({
-            auto_cells_pickup: parseInt($('#auto_cells_pickup').val()),
-            auto_cells_missed: parseInt($('#auto_cells_missed').val()),
-            auto_lowport_success: parseInt($('#auto_lowport_success').val()),
-            auto_lowport_fail: parseInt($('#auto_lowport_fail').val()),
-            auto_outerport_success: parseInt($('#auto_outerport_success').val()),
-            auto_outerport_fail: parseInt($('#auto_outerport_fail').val()),
-            auto_innerport_success: parseInt($('#auto_innerport_success').val()),
-            auto_line: parseInt($('label[name="line"].active').attr('value')),
-            no_auto: $('label[name="auto"].active').attr('value'),
-            // auto_vault: parseInt($('#auto_vault').val()),
+    var match_number = parseInt($('#matchnumber').val());
 
-            teleop_lower_success_c1: parseInt($('#teleop_lower_success_c1').val()),
-            teleop_lower_fail_c1: parseInt($('#teleop_lower_fail_c1').val()),
-            teleop_outer_success_c1: parseInt($('#teleop_outer_success_c1').val()),
-            teleop_outer_fail_c1: parseInt($('#teleop_outer_fail_c1').val()),
-            teleop_inner_c1: parseInt($('#teleop_inner_c1').val()),
+    db.child(team).child(match_number).once("value", snapshot => {
+        if (snapshot.exists()) {
+            alert("WARNING A MATCH FOR THIS TEAM ALREADY EXISTS! Please check your match number." +
+                "If you want to add this match to the database, please add '0000' at the end of the match number.");
+                return;
+        } else {
+            db.child(team).child(match_number).update({
+                    autoStats: {
+                        auto_cells_pickup: parseInt($('#auto_cells_pickup').val()),
+                        auto_cells_missed: parseInt($('#auto_cells_missed').val()),
+                        auto_lowport_success: parseInt($('#auto_lowport_success').val()),
+                        auto_lowport_fail: parseInt($('#auto_lowport_fail').val()),
+                        auto_outerport_success: parseInt($('#auto_outerport_success').val()),
+                        auto_outerport_fail: parseInt($('#auto_outerport_fail').val()),
+                        auto_innerport_success: parseInt($('#auto_innerport_success').val()),
+                        auto_line: parseInt($('label[name="line"].active').attr('value')),
+                        no_auto: $('label[name="auto"].active').attr('value'),
+                    },
 
-            teleop_lower_success_c2: parseInt($('#teleop_lower_success_c2').val()),
-            teleop_lower_fail_c2: parseInt($('#teleop_lower_fail_c2').val()),
-            teleop_outer_success_c2: parseInt($('#teleop_outer_success_c2').val()),
-            teleop_outer_fail_c2: parseInt($('#teleop_outer_fail_c2').val()),
-            teleop_inner_c2: parseInt($('#teleop_inner_c2').val()),
+                    teleopCycleStats: {
+                        cycle1: {
+                            lower_success: parseInt($('#teleop_lower_success_c1').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c1').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c1').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c1').val()),
+                            inner_success: parseInt($('#teleop_inner_c1').val())
+                        },
+                        cycle2: {
+                            lower_success: parseInt($('#teleop_lower_success_c2').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c2').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c2').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c2').val()),
+                            inner_success: parseInt($('#teleop_inner_c2').val())
+                        },
+                        cycle3: {
+                            lower_success: parseInt($('#teleop_lower_success_c3').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c3').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c3').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c3').val()),
+                            inner_success: parseInt($('#teleop_inner_c3').val())
+                        },
+                        cycle4: {
+                            lower_success: parseInt($('#teleop_lower_success_c4').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c4').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c4').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c4').val()),
+                            inner_success: parseInt($('#teleop_inner_c4').val())
+                        },
+                        cycle5: {
+                            lower_success: parseInt($('#teleop_lower_success_c5').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c5').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c5').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c5').val()),
+                            inner_success: parseInt($('#teleop_inner_c5').val())
+                        },
+                        cycle6: {
+                            lower_success: parseInt($('#teleop_lower_success_c6').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c6').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c6').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c6').val()),
+                            inner_success: parseInt($('#teleop_inner_c6').val())
+                        },
+                        cycle7: {
+                            lower_success: parseInt($('#teleop_lower_success_c7').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c7').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c7').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c7').val()),
+                            inner_success: parseInt($('#teleop_inner_c7').val())
+                        },
+                        cycle8: {
+                            lower_success: parseInt($('#teleop_lower_success_c8').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c8').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c8').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c8').val()),
+                            inner_success: parseInt($('#teleop_inner_c8').val())
+                        },
+                        cycle9: {
+                            lower_success: parseInt($('#teleop_lower_success_c9').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c9').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c9').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c9').val()),
+                            inner_success: parseInt($('#teleop_inner_c9').val())
+                        },
+                        cycle10: {
+                            lower_success: parseInt($('#teleop_lower_success_c10').val()),
+                            lower_fail: parseInt($('#teleop_lower_fail_c10').val()),
+                            outer_success: parseInt($('#teleop_outer_success_c10').val()),
+                            outer_fail: parseInt($('#teleop_outer_fail_c10').val()),
+                            inner_success: parseInt($('#teleop_inner_c10').val())
+                        }
+                    },
 
-            teleop_lower_success_c3: parseInt($('#teleop_lower_success_c3').val()),
-            teleop_lower_fail_c3: parseInt($('#teleop_lower_fail_c3').val()),
-            teleop_outer_success_c3: parseInt($('#teleop_outer_success_c3').val()),
-            teleop_outer_fail_c3: parseInt($('#teleop_outer_fail_c3').val()),
-            teleop_inner_c3: parseInt($('#teleop_inner_c3').val()),
+                    climbStats: {
+                        climb_type: document.querySelector('input[name="climb"]:checked').value,
+                        climb_assist: $('#assisted-climb-team').val(),
+                        climb_lift: $('#lifted-climb-team').val(),
+                        climb_notes: $('#climb_other').val(),
 
-            teleop_lower_success_c4: parseInt($('#teleop_lower_success_c4').val()),
-            teleop_lower_fail_c4: parseInt($('#teleop_lower_fail_c4').val()),
-            teleop_outer_success_c4: parseInt($('#teleop_outer_success_c4').val()),
-            teleop_outer_fail_c4: parseInt($('#teleop_outer_fail_c4').val()),
-            teleop_inner_c4: parseInt($('#teleop_inner_c4').val()),
+                    },
 
-            teleop_lower_success_c5: parseInt($('#teleop_lower_success_c5').val()),
-            teleop_lower_fail_c5: parseInt($('#teleop_lower_fail_c5').val()),
-            teleop_outer_success_c5: parseInt($('#teleop_outer_success_c5').val()),
-            teleop_outer_fail_c5: parseInt($('#teleop_outer_fail_c5').val()),
-            teleop_inner_c5: parseInt($('#teleop_inner_c5').val()),
-
-            teleop_lower_success_c6: parseInt($('#teleop_lower_success_c6').val()),
-            teleop_lower_fail_c6: parseInt($('#teleop_lower_fail_c6').val()),
-            teleop_outer_success_c6: parseInt($('#teleop_outer_success_c6').val()),
-            teleop_outer_fail_c6: parseInt($('#teleop_outer_fail_c6').val()),
-            teleop_inner_c6: parseInt($('#teleop_inner_c6').val()),
-
-            teleop_lower_success_c7: parseInt($('#teleop_lower_success_c7').val()),
-            teleop_lower_fail_c7: parseInt($('#teleop_lower_fail_c7').val()),
-            teleop_outer_success_c7: parseInt($('#teleop_outer_success_c7').val()),
-            teleop_outer_fail_c7: parseInt($('#teleop_outer_fail_c7').val()),
-            teleop_inner_c7: parseInt($('#teleop_inner_c7').val()),
-
-            teleop_lower_success_c8: parseInt($('#teleop_lower_success_c8').val()),
-            teleop_lower_fail_c8: parseInt($('#teleop_lower_fail_c8').val()),
-            teleop_outer_success_c8: parseInt($('#teleop_outer_success_c8').val()),
-            teleop_outer_fail_c8: parseInt($('#teleop_outer_fail_c8').val()),
-            teleop_inner_c8: parseInt($('#teleop_inner_c8').val()),
-
-            teleop_lower_success_c9: parseInt($('#teleop_lower_success_c9').val()),
-            teleop_lower_fail_c9: parseInt($('#teleop_lower_fail_c9').val()),
-            teleop_outer_success_c9: parseInt($('#teleop_outer_success_c9').val()),
-            teleop_outer_fail_c9: parseInt($('#teleop_outer_fail_c9').val()),
-            teleop_inner_c9: parseInt($('#teleop_inner_c9').val()),
-
-            teleop_lower_success_c10: parseInt($('#teleop_lower_success_c10').val()),
-            teleop_lower_fail_c10: parseInt($('#teleop_lower_fail_c10').val()),
-            teleop_outer_success_c10: parseInt($('#teleop_outer_success_c10').val()),
-            teleop_outer_fail_c10: parseInt($('#teleop_outer_fail_c10').val()),
-            teleop_inner_c10: parseInt($('#teleop_inner_c10').val()),
-            fit_under_panel: $('label[name="fit_panel"].active').attr('value'),
-
-
-            climb: document.querySelector('input[name="climb"]:checked').value,
-            climb_assist: $('#assisted-climb-team').val(),
-            climb_lift: $('#lifted-climb-team').val(),
-            climb_notes: $('#climb_other').val(),
-
-            defense_strength: document.querySelector('input[name="defense_strength"]:checked').value,
-            defense_type: document.querySelector('input[name="defense_type"]:checked').value,
-
-
-            team_number: parseInt($('#team').val()),
-            match_number: parseInt($('#matchnumber').val()),
-            match_scouter: $('#scouter').val() === "" ? "-" : $('#scouter').val(),
-            match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
-
-
-        })
-        .then(function(done) {
-            console.log("Successfully uploaded data to allteams/" + team + "/matches/" + newKey);
-        });
-
-
-    if (document.getElementById('climb_other').value === "" || document.getElementById('climb_other').value === null) {
-        document.getElementById('climb_other').value = "-";
-    }
-
-    if (document.getElementById('comment').value === "" || document.getElementById('comment').value === null) {
-        document.getElementById('comment').value = "-";
-    }
-
-    if (document.getElementById('assisted-climb-team').value === "" || document.getElementById('assisted-climb-team').value === null) {
-        document.getElementById('assisted-climb-team').value = "-";
-    }
-
-    if (document.getElementById('lifted-climb-team').value === "" || document.getElementById('assisted-climb-team').value === null) {
-        document.getElementById('lifted-climb-team').value = "-";
-    }
+                    fit_under_panel: $('label[name="fit_panel"].active').attr('value'),
 
 
-    firebase.database().ref().child('teamlist/' + team).set(1);
+                    defense_strength: document.querySelector('input[name="defense_strength"]:checked').value,
+                    defense_type: document.querySelector('input[name="defense_type"]:checked').value,
 
-    console.log("Team " + team + " added to teamlist.");
-    location.reload();
-    $('html,body').scrollTop(0);
+                    match_scouter: $('#scouter').val() === "" ? "-" : $('#scouter').val(),
+                    match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
+
+                })
+                .then(function (done) {
+                    console.log("Successfully uploaded data to allteams/" + team + "/matches/" + newKey);
+                });
+
+
+            if (document.getElementById('climb_other').value === "" || document.getElementById('climb_other').value === null) {
+                document.getElementById('climb_other').value = "-";
+            }
+
+            if (document.getElementById('comment').value === "" || document.getElementById('comment').value === null) {
+                document.getElementById('comment').value = "-";
+            }
+
+            if (document.getElementById('assisted-climb-team').value === "" || document.getElementById('assisted-climb-team').value === null) {
+                document.getElementById('assisted-climb-team').value = "-";
+            }
+
+            if (document.getElementById('lifted-climb-team').value === "" || document.getElementById('assisted-climb-team').value === null) {
+                document.getElementById('lifted-climb-team').value = "-";
+            }
+
+            console.log("Team " + team + " added to teamlist.");
+            location.reload();
+            $('html,body').scrollTop(0);
+        }
+    });
+
 
     // var counter = firebase.database().ref('allteams/' + team).orderByKey();
     // counter.once("value").then(function(snapshot) {
@@ -246,11 +264,6 @@ function updateDatabase() {
     // });
 
 }
-
-
-
-
-
 
 // USE TO FETCH TEAM LIST ARRAY... USE FOR NEW COMPETITION
 // function fetchTeams() {
