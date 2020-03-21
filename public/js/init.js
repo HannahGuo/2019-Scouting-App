@@ -1,12 +1,17 @@
 // Initialize CMP DATABASE
-//
-var config = {
-	apiKey: "AIzaSyAORXJe-xsRCVo3dgD3zESmjcgoS-65r3I",
-	authDomain: "scouting1325.firebaseapp.com",
-	databaseURL: "https://scouting1325.firebaseio.com/",
-	storageBucket: "scouting1325.appspot.com",
-};
-firebase.initializeApp(config);
+
+firebase.initializeApp({
+	apiKey: "AIzaSyAau-WrmNX1wWHTQWNxUQbNqINE3dWdb90",
+	authDomain: "scouting-2020-a001b.firebaseapp.com",
+	databaseURL: "https://scouting-2020-a001b.firebaseio.com",
+	projectId: "scouting-2020-a001b",
+	storageBucket: "scouting-2020-a001b.appspot.com",
+	messagingSenderId: "881518357204",
+	appId: "1:881518357204:web:479c1ecb18af6c08a7a941",
+	measurementId: "G-GW45249Q4E"
+});
+var db = firebase.firestore();
+
 
 // Initialize DEV DATABASE 
 // var config = {
