@@ -1,17 +1,37 @@
 // Initialize CMP DATABASE
+// firebase.initializeApp({
+// 	apiKey: "AIzaSyAau-WrmNX1wWHTQWNxUQbNqINE3dWdb90",
+// 	authDomain: "scouting-2020-a001b.firebaseapp.com",
+// 	databaseURL: "https://scouting-2020-a001b.firebaseio.com",
+// 	projectId: "scouting-2020-a001b",
+// 	storageBucket: "scouting-2020-a001b.appspot.com",
+// 	messagingSenderId: "881518357204",
+// 	appId: "1:881518357204:web:479c1ecb18af6c08a7a941",
+// 	measurementId: "G-GW45249Q4E"
+// });
+// var db = firebase.firestore();
+
+// Initialize HANNAH DATABASE
 
 firebase.initializeApp({
-	apiKey: "AIzaSyAau-WrmNX1wWHTQWNxUQbNqINE3dWdb90",
-	authDomain: "scouting-2020-a001b.firebaseapp.com",
-	databaseURL: "https://scouting-2020-a001b.firebaseio.com",
-	projectId: "scouting-2020-a001b",
-	storageBucket: "scouting-2020-a001b.appspot.com",
-	messagingSenderId: "881518357204",
-	appId: "1:881518357204:web:479c1ecb18af6c08a7a941",
-	measurementId: "G-GW45249Q4E"
+    apiKey: "AIzaSyAORXJe-xsRCVo3dgD3zESmjcgoS-65r3I",
+    databaseURL: "https://scouting1325.firebaseio.com",
+    authDomain: "scouting1325.firebaseapp.com",
+    projectId: "scouting1325"
 });
-var db = firebase.firestore();
 
+var db = firebase.firestore();
+db.collection("users").add({
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+})
+.then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
+});
 
 // Initialize DEV DATABASE 
 // var config = {

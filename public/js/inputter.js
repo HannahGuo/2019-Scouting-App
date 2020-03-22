@@ -84,14 +84,12 @@ function submitData() {
 // }
 
 function inputVerification() {
-
     var check = true;
     var team = parseInt($('#team').val());
     if (isNaN(parseInt($('#team').val()))) {
         $('#uploading').html($('#uploading').html() + "<br>Please enter a team number as an integer.");
         check = false;
     }
-
 
     if (isNaN(parseInt($('#matchnumber').val()))) {
         $('#uploading').html($('#uploading').html() + "<br>Please enter a match number as an integer.");
@@ -138,7 +136,7 @@ function updateDatabase() {
             auto_outerport_success: parseInt($('#auto_outerport_success').val()),
             auto_outerport_fail: parseInt($('#auto_outerport_fail').val()),
             auto_innerport_success: parseInt($('#auto_innerport_success').val()),
-            auto_line: parseInt($('label[name="line"].active').attr('value')),
+            auto_line: $('label[name="line"].active').attr('value'),
             no_auto: $('label[name="auto"].active').attr('value'),
         },
 
@@ -232,7 +230,12 @@ function updateDatabase() {
         match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
     };
 
-    db.collection(currentEvent).doc(team).collection(match_number).add(currentData);
+    db.collection(currentEvent).doc("teamMatchData/" + team + "/" + match_number).set(currentData).then(function () {
+            console.log("Document successfully updated!");
+        })
+        .catch(function (error) {
+            console.error("Error updating document: ", error);
+        });;
 
     console.log("Team " + team + " added to teamlist.");
     location.reload();
