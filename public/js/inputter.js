@@ -110,7 +110,7 @@ function inputVerification() {
 
 function updateDatabase() {
     var team = $('#team').val();
-    var match_number = $('#matchnumber').val() + "";
+    var matchNumber = $('#matchnumber').val() + "";
     if (document.getElementById('climb_other').value === "" || document.getElementById('climb_other').value === null) {
         document.getElementById('climb_other').value = "-";
     }
@@ -227,18 +227,22 @@ function updateDatabase() {
         defense_type: document.querySelector('input[name="defense_type"]:checked').value,
 
         match_scouter: $('#scouter').val() === "" ? "-" : $('#scouter').val(),
-        match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
+        match_comment: $('#comment').val() === "" ? "-" : $('#comment').val()
     };
 
-    db.collection(currentEvent).doc("teamMatchData/" + team + "/" + match_number).set(currentData).then(function () {
+    db.collection(currentEvent).doc("teamMatchData").collection(team).doc(matchNumber).set(currentData, {
+            merge: false
+        }).then(function () {
             console.log("Document successfully updated!");
         })
         .catch(function (error) {
             console.error("Error updating document: ", error);
-        });;
+        });
 
     console.log("Team " + team + " added to teamlist.");
-    location.reload();
+    
+    setTimeout(location.reload.bind(location), 500);
+
     $('html,body').scrollTop(0);
 
 
