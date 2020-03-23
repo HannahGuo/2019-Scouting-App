@@ -19,19 +19,7 @@ firebase.initializeApp({
     authDomain: "scouting1325.firebaseapp.com",
     projectId: "scouting1325"
 });
-
 var db = firebase.firestore();
-db.collection("users").add({
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815
-})
-.then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
-})
-.catch(function(error) {
-    console.error("Error adding document: ", error);
-});
 
 // Initialize DEV DATABASE 
 // var config = {

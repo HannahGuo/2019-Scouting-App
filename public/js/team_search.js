@@ -35,70 +35,66 @@ function loadTeam() {
 
     team = $("#team").val() + "";
 
-    retrieveData();
+    populateMatchHistory();
 }
 
-function retrieveData() {
-    db.collection("barrie2020").doc("teamMatchData").collection(team).get().then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-    });
+// function retrieveData() {
+//     db.collection("barrie2020").doc("teamMatchData").collection(team).get().then(function (querySnapshot) {
+//         querySnapshot.forEach(function (doc) {
+//             console.log(doc.id, " => ", doc.data());
+//             populateStats();
+//             populateMatchHistory();
+//         });
+//     });
 
-    // db.collection(currentEvent).doc("teamMatchData").get().then(function (doc) {
-    //     if (doc.exists) {
-    //         console.log("Document data:", doc.data());
-    //     } else {
-    //         console.log("No such document!");
-    //     }
-    // }).catch(function (error) {
-    //     console.log("Error getting document:", error);
-    // });;
+//     // db.collection(currentEvent).doc("teamMatchData").get().then(function (doc) {
+//     //     if (doc.exists) {
+//     //         console.log("Document data:", doc.data());
+//     //     } else {
+//     //         console.log("No such document!");
+//     //     }
+//     // }).catch(function (error) {
+//     //     console.log("Error getting document:", error);
+//     // });;
 
-    // db.ref("allteams/" + team).on('value', function (snap) {
+//     // db.ref("allteams/" + team).on('value', function (snap) {
 
-    //     if (snap.exists()) {
+//     //     if (snap.exists()) {
 
-    //         $("#alerts").html("Viewing data for team: " + team);
-    //         console.log("Viewing data for team: " + team);
-    //         data = {};
+//     //         $("#alerts").html("Viewing data for team: " + team);
+//     //         console.log("Viewing data for team: " + team);
+//     //         data = {};
 
-    //         snap.forEach(function (matchsnap) {
-    //             parseMatch(matchsnap);
-    //         });
+//     //         snap.forEach(function (matchsnap) {
+//     //             parseMatch(matchsnap);
+//     //         });
 
-    //         // Matches have been retrieved
+//     //         // Matches have been retrieved
 
-    //         populateStats();
-    //         populateMatchHistory();
+//     //         populateStats();
+//     //         populateMatchHistory();
 
-    //     } else {
+//     //     } else {
 
-    //         $("#alerts").html("Failed to retrieve data for team: " + team + "<br>Please check your internet connection and if the team exists in the database.");
+//     //         $("#alerts").html("Failed to retrieve data for team: " + team + "<br>Please check your internet connection and if the team exists in the database.");
 
-    //     }
+//     //     }
 
-    // });
-    // firebase.storage().ref().child('teams/' + team).getDownloadURL().then(function (teamPic) {
-    //     var img = document.getElementById('teamPic').src = teamPic;
-    // }).catch(function (error) {
-    //     console.log("err");
-    //     console.log(error.code);
-    //     //var img = document.getElementById('teamPic').src = "";
-    // });
-}
+//     // });
+//     // firebase.storage().ref().child('teams/' + team).getDownloadURL().then(function (teamPic) {
+//     //     var img = document.getElementById('teamPic').src = teamPic;
+//     // }).catch(function (error) {
+//     //     console.log("err");
+//     //     console.log(error.code);
+//     //     //var img = document.getElementById('teamPic').src = "";
+//     // });
+// }
 
 function parseMatch(matchsnap) {
-
     matchsnap.forEach(function (infosnap) {
-
         if (typeof data[infosnap.key] == "undefined") {
             data[infosnap.key] = [];
         }
-
         data[infosnap.key].push(infosnap.val());
-
     });
-
 }

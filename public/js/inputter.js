@@ -129,13 +129,13 @@ function updateDatabase() {
 
     var currentData = {
         autoStats: {
-            auto_cells_pickup: parseInt($('#auto_cells_pickup').val()),
-            auto_cells_missed: parseInt($('#auto_cells_missed').val()),
-            auto_lowport_success: parseInt($('#auto_lowport_success').val()),
-            auto_lowport_fail: parseInt($('#auto_lowport_fail').val()),
-            auto_outerport_success: parseInt($('#auto_outerport_success').val()),
-            auto_outerport_fail: parseInt($('#auto_outerport_fail').val()),
-            auto_innerport_success: parseInt($('#auto_innerport_success').val()),
+            cells_pickup: parseInt($('#auto_cells_pickup').val()),
+            cells_missed: parseInt($('#auto_cells_missed').val()),
+            lower_success: parseInt($('#auto_lowport_success').val()),
+            lower_fail: parseInt($('#auto_lowport_fail').val()),
+            outer_success: parseInt($('#auto_outerport_success').val()),
+            outer_fail: parseInt($('#auto_outerport_fail').val()),
+            inner_success: parseInt($('#auto_innerport_success').val()),
             auto_line: $('label[name="line"].active').attr('value'),
             no_auto: $('label[name="auto"].active').attr('value'),
         },
