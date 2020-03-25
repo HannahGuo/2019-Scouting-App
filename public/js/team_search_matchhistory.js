@@ -1,3 +1,5 @@
+var currentEvent = "york2020";
+
 function returnAutoSum(dataO, selector) {
   return parseInt(dataO[selector]);
 }
@@ -23,10 +25,11 @@ function getNumCycles(dataO) {
 }
 
 function populateMatchHistory() {
-  db.collection("barrie2020").doc("teamMatchData").collection(team).get().then(function (querySnapshot) {
+  db.collection(currentEvent).doc("teamMatchData").collection(team).get().then(function (querySnapshot) {
     $('#auto_table').html("");
     $('#teleop_table').html("");
     querySnapshot.forEach(function (doc) {
+      ////////// AUTO TABLE START //////////
       var rowAuto = $('<tr></tr>');
       var lowerScoredAuto = returnAutoSum(doc.data().autoStats, "lower_success");
       var lowerFailAuto = returnAutoSum(doc.data().autoStats, "lower_fail");
@@ -34,11 +37,24 @@ function populateMatchHistory() {
       var outerFailAuto = returnAutoSum(doc.data().autoStats, "outer_fail");
       var innerScoredAuto = returnAutoSum(doc.data().autoStats, "inner_success");
       rowAuto.append($('<td></td>').text(doc.id));
-      rowAuto.append($('<td></td>').text(lowerFailAuto + " " + lowerScoredAuto));
-      rowAuto.append($('<td></td>').text(outerFailAuto + " " + outerScoredAuto));
-      rowAuto.append($('<td></td>').text(innerScoredAuto));
+      rowAuto.append($('<td></td>').html("<span class='red'>" + lowerFailAuto + "</span> : <span class='green'>" + lowerScoredAuto + "</span>"));
+      rowAuto.append($('<td></td>').html("<span class='red'>" + outerFailAuto + "</span> : <span class='green'>" + outerScoredAuto + "</span>"));
+      rowAuto.append($('<td></td>').html("<span class='green'>" + innerScoredAuto + "</span>"));
+      if (doc.data().autoStats.has_auto == "No") {
+        rowAuto.append($('<td></td>').html("<span class='red'>" + doc.data().autoStats.auto_line + "</span>"));
+        rowAuto.append($('<td></td>').html("<span class='red'>" + doc.data().autoStats.has_auto + "</span>"));
+      } else {
+        rowAuto.append($('<td></td>').html("<span class='green'>" + doc.data().autoStats.auto_line + "</span>"));
+        if (doc.data().autoStats.auto_line == "No") {
+          rowAuto.append($('<td></td>').html("<span class='red'>" + doc.data().autoStats.auto_line + "</span>"));
+        } else {
+          rowAuto.append($('<td></td>').html("<span class='green'>" + doc.data().autoStats.auto_line + "</span>"));
+        }
+      }
       $('#auto_table').append(rowAuto);
+      ////////// AUTO TABLE END //////////
 
+      ////////// TELEOP CYCLES TABLE START //////////
       var rowTeleop = $('<tr></tr>');
       var lowerScoredTeleop = returnTeleopSum(doc.data().teleopCycleStats, "lower_success");
       var lowerFailTeleop = returnTeleopSum(doc.data().teleopCycleStats, "lower_fail");
@@ -51,12 +67,41 @@ function populateMatchHistory() {
       var cellPercentage = Math.floor((totalScored / totalShot) * 100);
 
       rowTeleop.append($('<td></td>').text(doc.id));
-      rowTeleop.append($('<td></td>').text(lowerFailTeleop + " " + lowerScoredTeleop));
-      rowTeleop.append($('<td></td>').text(outerFailTeleop + " " + outerScoredTeleop));
-      rowTeleop.append($('<td></td>').text(innerScoredTeleop));
+      rowTeleop.append($('<td></td>').html("<span class='red'>" + lowerFailTeleop + "</span> : <span class='green'>" + lowerScoredTeleop + "</span>"));
+      rowTeleop.append($('<td></td>').html("<span class='red'>" + outerFailTeleop + "</span> : <span class='green'>" + outerScoredTeleop + "</span>"));
+      rowTeleop.append($('<td></td>').html("<span class='green'>" + innerScoredTeleop + "</span>"));
       rowTeleop.append($('<td></td>').text(cellPercentage + "%  (" + totalScored + "/" + totalShot + ")"));
       rowTeleop.append($('<td></td>').text(getNumCycles(doc.data().teleopCycleStats)));
       $('#teleop_table').append(rowTeleop);
+      ////////// TELEOP CYCLES TABLE END //////////
+
+      ////////// CLIMP TABLE START //////////
+      var rowClimb = $('<tr></tr>');
+      rowClimb.append($('<td></td>').text(doc.id));
+      rowClimb.append($('<td></td>').text(doc.data().climbStats.climb_assist));
+      rowClimb.append($('<td></td>').text(doc.data().climbStats.climb_lift));
+      rowClimb.append($('<td></td>').text(doc.data().climbStats.climb_notes));
+      rowClimb.append($('<td></td>').text(doc.data().climbStats.climb_type));
+      $('#climb_table').append(rowClimb);
+      ////////// CLIMP TABLE END //////////
+
+      ////////// DEFENSE TABLE START //////////
+      var rowDefense = $('<tr></tr>');
+      rowDefense.append($('<td></td>').text(doc.id));
+      rowDefense.append($('<td></td>').text(doc.data().fit_under_panel));
+      rowDefense.append($('<td></td>').text(doc.data().defense_type));
+      rowDefense.append($('<td></td>').text(doc.data().defense_strength));
+      $('#defense_table').append(rowDefense);
+      ////////// DEFENSE TABLE END //////////
+
+
+      ////////// COMMENTS TABLE START //////////
+      var rowComments = $('<tr></tr>');
+      rowComments.append($('<td></td>').text(doc.id));
+      rowComments.append($('<td></td>').text(doc.data().match_scouter));
+      rowComments.append($('<td></td>').text(doc.data().match_comment));
+      $('#comment_table').append(rowComments);
+      ////////// DEFENSE TABLE END //////////
     });
   });
 

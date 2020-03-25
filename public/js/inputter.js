@@ -2,7 +2,7 @@ var matchNumber = 0;
 var valKey = [];
 var matchArray = [];
 var teams = []
-var currentEvent = "barrie2020";
+var currentEvent = "york2020";
 
 // $(window).on('load', function() {
 //     if (!(firebase.auth().currentUser)) {
@@ -137,7 +137,7 @@ function updateDatabase() {
             outer_fail: parseInt($('#auto_outerport_fail').val()),
             inner_success: parseInt($('#auto_innerport_success').val()),
             auto_line: $('label[name="line"].active').attr('value'),
-            no_auto: $('label[name="auto"].active').attr('value'),
+            has_auto: $('label[name="auto"].active').attr('value'),
         },
 
         teleopCycleStats: {
