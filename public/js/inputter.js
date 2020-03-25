@@ -2,7 +2,7 @@ var matchNumber = 0;
 var valKey = [];
 var matchArray = [];
 var teams = []
-var currentEvent = "barrie2020";
+var currentEvent = "york2020";
 
 // $(window).on('load', function() {
 //     if (!(firebase.auth().currentUser)) {
@@ -84,14 +84,12 @@ function submitData() {
 // }
 
 function inputVerification() {
-
     var check = true;
     var team = parseInt($('#team').val());
     if (isNaN(parseInt($('#team').val()))) {
         $('#uploading').html($('#uploading').html() + "<br>Please enter a team number as an integer.");
         check = false;
     }
-
 
     if (isNaN(parseInt($('#matchnumber').val()))) {
         $('#uploading').html($('#uploading').html() + "<br>Please enter a match number as an integer.");
@@ -112,7 +110,7 @@ function inputVerification() {
 
 function updateDatabase() {
     var team = $('#team').val();
-    var match_number = $('#matchnumber').val() + "";
+    var matchNumber = $('#matchnumber').val() + "";
     if (document.getElementById('climb_other').value === "" || document.getElementById('climb_other').value === null) {
         document.getElementById('climb_other').value = "-";
     }
@@ -131,15 +129,15 @@ function updateDatabase() {
 
     var currentData = {
         autoStats: {
-            auto_cells_pickup: parseInt($('#auto_cells_pickup').val()),
-            auto_cells_missed: parseInt($('#auto_cells_missed').val()),
-            auto_lowport_success: parseInt($('#auto_lowport_success').val()),
-            auto_lowport_fail: parseInt($('#auto_lowport_fail').val()),
-            auto_outerport_success: parseInt($('#auto_outerport_success').val()),
-            auto_outerport_fail: parseInt($('#auto_outerport_fail').val()),
-            auto_innerport_success: parseInt($('#auto_innerport_success').val()),
-            auto_line: parseInt($('label[name="line"].active').attr('value')),
-            no_auto: $('label[name="auto"].active').attr('value'),
+            cells_pickup: parseInt($('#auto_cells_pickup').val()),
+            cells_missed: parseInt($('#auto_cells_missed').val()),
+            lower_success: parseInt($('#auto_lowport_success').val()),
+            lower_fail: parseInt($('#auto_lowport_fail').val()),
+            outer_success: parseInt($('#auto_outerport_success').val()),
+            outer_fail: parseInt($('#auto_outerport_fail').val()),
+            inner_success: parseInt($('#auto_innerport_success').val()),
+            auto_line: $('label[name="line"].active').attr('value'),
+            has_auto: $('label[name="auto"].active').attr('value'),
         },
 
         teleopCycleStats: {
@@ -229,13 +227,22 @@ function updateDatabase() {
         defense_type: document.querySelector('input[name="defense_type"]:checked').value,
 
         match_scouter: $('#scouter').val() === "" ? "-" : $('#scouter').val(),
-        match_comment: $('#comment').val() === "" ? "-" : $('#comment').val(),
+        match_comment: $('#comment').val() === "" ? "-" : $('#comment').val()
     };
 
-    db.collection(currentEvent).doc(team).collection(match_number).add(currentData);
+    db.collection(currentEvent).doc("teamMatchData").collection(team).doc(matchNumber).set(currentData, {
+            merge: false
+        }).then(function () {
+            console.log("Document successfully updated!");
+        })
+        .catch(function (error) {
+            console.error("Error updating document: ", error);
+        });
 
     console.log("Team " + team + " added to teamlist.");
-    location.reload();
+    
+    setTimeout(location.reload.bind(location), 500);
+
     $('html,body').scrollTop(0);
 
 
