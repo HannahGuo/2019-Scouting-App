@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Match Preview</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/w3data.js"></script>
+    <script src="/js/init.js"></script>
+    <script src="/js/match_preview.js"></script>
+    <style>
+        #overallAllianceTable {
+            width: 100%;
+            text-align: center;
+        }
+
+        #overallAllianceTable,
+        th,
+        td {
+            border: 2px solid black;
+            border-collapse: collapse;
+            ;
+        }
+
+        .redAlliance {
+            background-color: pink;
+        }
+
+        .blueAlliance {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div w3-include-html="/html/nav.html"></div>
+    <br>
+    <div class="container">
+        <br>
+        <h1>
+            Match Preview
+        </h1>
+        <input id="matchNumber" class="form-control" placeholder="Number..." type="number" inputmode="numeric"
+            pattern="[0-9]*" oninput="getMatchNumber()">
+        <br>
+        <div class="table-responsive">
+            <table id="overallAllianceTable">
+                <tr>
+                    <th>Team 1</th>
+                    <th>Team 2</th>
+                    <th>Team 3</th>
+                </tr>
+                <tbody id="alliance_table">
+                </tbody>
+            </table>
+            <br><br>
+        </div>
+    </div>
+    <div w3-include-html="/html/footer.html"></div>
+    <script>
+        w3IncludeHTML();
+    </script>
+</body>
+
+</html>

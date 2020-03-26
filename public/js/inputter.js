@@ -231,7 +231,7 @@ function updateDatabase() {
     };
 
     db.collection(currentEvent).doc("teamMatchData").collection(team).doc(matchNumber).set(currentData, {
-            merge: false
+            merge: false // this doesnt actually do anything apparently. 
         }).then(function () {
             console.log("Document successfully updated!");
         })
@@ -240,7 +240,7 @@ function updateDatabase() {
         });
 
     console.log("Team " + team + " added to teamlist.");
-    
+
     setTimeout(location.reload.bind(location), 500);
 
     $('html,body').scrollTop(0);
